@@ -6,6 +6,8 @@ import { signoutRouter } from "./routes/signout";
 import {errorHandler} from './middlewares/error-handler'
 import { NotFoundError } from './errors/not-found-error';
 import 'express-async-errors'   //async function callback can make fail our all throwed errors inside routes
+import mongoose from "mongoose";
+
 const app = express()
 app.use(express.json())
 
@@ -21,6 +23,16 @@ app.all('*',async ()=>{
 
 app.use(errorHandler)
 
-app.listen(3000,()=>{
+const start = async()=>{
+    try {
+        await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')
+        console.log('Connected to monogodb')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+app.listen(3000,async ()=>{
+    await start()
     console.log('Listening on 3000!!')
 })
