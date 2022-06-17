@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { Password } from './../services/password';
+import { BadRequestError } from './../errors/bad-request-error';
 
 // An interface for user attributes provided by user
 interface UserAttrs
@@ -33,8 +34,19 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     }
+},{
+    toJSON:{        //it is called when JSON.stringify() is called while sending res.
+        transform(doc,ret)
+        {
+            ret.id = ret._id
+            delete ret._id
+            delete ret.__v
+            delete ret.password
+        }
+    }
 })
 
+// async function so that this is current model and not calling function
 userSchema.pre('save',async function (done) {
     if(this.isModified('password')) //hash only if password is modified.Incase we are updating User.
     {

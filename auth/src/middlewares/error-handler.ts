@@ -1,7 +1,7 @@
 import {Request,Response,NextFunction} from "express"
 import { CustomError } from "../errors/custom-error"
 
-// middleware to catch all throwed error object.
+// middleware to catch all throwed error object.1st error parameter.
 export const errorHandler = (err:Error,req:Request,res:Response,next:NextFunction)=>{
 
 // creating abstract class to have single if check and also common response structure

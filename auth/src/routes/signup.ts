@@ -1,42 +1,39 @@
-import express,{Request,Response} from 'express';
-import {body,validationResult} from 'express-validator'
-import {RequestValidationError} from '../errors/request-validation-error'
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator'
 import { User } from '../models/user';
 import { BadRequestError } from './../errors/bad-request-error';
-import 'express-async-errors' 
-import {Password} from '../services/password'       
+import 'express-async-errors'
+import { validateRequest } from '../middlewares/validate-request';
+import { generateJwt } from '../services/generate-jwt';
 
 const router = express.Router()
 
 router.post('/api/users/signup',
-[   //validation of body
-    body('email').isEmail().withMessage('Email must be valid'),
-    body('password').trim().isLength({min:4,max:20}).withMessage('Password must be 4-20 characters')
-],
-async (req:Request,res:Response)=>{
+    [   //validation of body
+        body('email').isEmail().withMessage('Email must be valid'),
+        body('password').trim().isLength({ min: 4, max: 20 }).withMessage('Password must be 4-20 characters')
+    ],
+    validateRequest,
+    async (req: Request, res: Response) => {
+        const { email, password } = req.body
 
-    const errors = validationResult(req)    //fetch errors if any during validation of body as mentioned above
+        const existingUser = await User.findOne({ email })
 
-    if(!errors.isEmpty())
-    {
-        throw new RequestValidationError(errors.array())
-    }
+        if (existingUser) {
+            console.log('User exists with provided email')
+            throw new BadRequestError('User exists with provided email')
+        }
 
-    const {email,password} = req.body
+        const newUser = User.build({ email, password })
+        await newUser.save()
 
-    const existingUser = await User.findOne({email})
-    
-    if(existingUser)
-    {
-        console.log('User exists with provided email')
-        throw new BadRequestError('User exists with provided email')
-    }
-    
-    const newUser = User.build({email,password})
-    await newUser.save()
-    console.log('User created')
+        // store jwt on cookie session created by cookieSession
+        req.session = generateJwt(newUser)
 
-    res.status(201).send(newUser)
-})
+        console.log('User created')
 
-export {router as signupRouter}
+        //object is converted to json string.Here model tranform is called
+        res.status(201).send(newUser)
+    })
+
+export { router as signupRouter }
