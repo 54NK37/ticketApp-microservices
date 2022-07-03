@@ -1,9 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator'
 import { User } from '../models/user';
-import { BadRequestError } from './../errors/bad-request-error';
+import { validateRequest,BadRequestError } from 'ticket-app-microservices-common';
 import 'express-async-errors'
-import { validateRequest } from '../middlewares/validate-request';
 import { generateJwt } from '../services/generate-jwt';
 
 const router = express.Router()

@@ -1,28 +1,29 @@
 import mongoose from 'mongoose'
 import { Password } from './../services/password';
-import { BadRequestError } from './../errors/bad-request-error';
 
-// An interface for user attributes provided by user
+// An interface for user attributes provided by user to check datatype
 interface UserAttrs
 {
     email:string,
     password:string
 }
 
-// with ts+mongoose we can send any attributes to new User() model.
-// To solve this issue we create above interface and
-//  below custom function build() is registered to model as shown below
-// Properties for user model.To avoid adding of other keys by user.
-interface UserModel extends mongoose.Model<UserDoc>
-{
-    build(attrs : UserAttrs) : UserDoc
-}
-
+// document represents entry within collection
 // Properties for single user document. To avoid adding of other keys by mongoose,
 // and accessing them from backend as user.email
 interface UserDoc extends mongoose.Document {
     email : string,
     password:string
+}
+
+// model represents collection
+// with ts+mongoose we can send any attributes to new User() model.
+// To solve this issue we create above interface and
+// below custom function build() is registered to model as shown below
+// Properties for user model.To avoid adding of other keys by user.
+interface UserModel extends mongoose.Model<UserDoc>
+{
+    build(attrs : UserAttrs) : UserDoc
 }
 
 const userSchema = new mongoose.Schema({
@@ -38,7 +39,7 @@ const userSchema = new mongoose.Schema({
     toJSON:{        //it is called when JSON.stringify() is called while sending res.
         transform(doc,ret)
         {
-            ret.id = ret._id
+            ret.id = ret._id    // to rename _id to id so that we have same name among all diffrent lang services
             delete ret._id
             delete ret.__v
             delete ret.password
@@ -56,6 +57,7 @@ userSchema.pre('save',async function (done) {
     done()
 })
 
+// to check datatype of attrs 
 userSchema.statics.build=(attrs : UserAttrs)=>{
     return new User(attrs)
 }

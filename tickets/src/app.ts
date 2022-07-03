@@ -1,11 +1,9 @@
 import express from "express";
 import cookieSession from 'cookie-session'
-import { currentUserRouter } from "./routes/current-user";
-import { signinRouter } from "./routes/signin";
-import { signupRouter } from "./routes/signup";
-import { signoutRouter } from "./routes/signout";
 import {errorHandler,NotFoundError} from 'ticket-app-microservices-common'
 import 'express-async-errors'   //async function callback can make fail our all throwed errors inside routes
+import { createTicketRouter } from "./routes/new";
+import {currentUser} from 'ticket-app-microservices-common'
 
 // app is written separately for testing as we require only app without running on any port
 const app = express()
@@ -16,10 +14,8 @@ app.use(cookieSession({         //for https
     secure:process.env.NODE_ENV !== 'test'  //supertest sends only http requests
 }))
 
-app.use(currentUserRouter)
-app.use(signinRouter)
-app.use(signupRouter)
-app.use(signoutRouter)
+app.use(currentUser)
+app.use(createTicketRouter)
 
 // for all http methods .
 app.all('*',async ()=>{

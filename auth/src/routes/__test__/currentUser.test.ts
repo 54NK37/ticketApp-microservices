@@ -1,6 +1,5 @@
 import request from 'supertest'
 import {app} from '../../app'
-import { currentUser } from './../../middlewares/current-user';
 
 it('Returns current user',async ()=>{
     //    like other clients cookie is not stored with supertest.Hence we set it explicitly

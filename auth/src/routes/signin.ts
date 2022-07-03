@@ -2,8 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator'
 import 'express-async-errors'
 import { User } from '../models/user';
-import { validateRequest } from '../middlewares/validate-request';
-import { BadRequestError } from './../errors/bad-request-error';
+import { validateRequest,BadRequestError } from 'ticket-app-microservices-common';
 import { Password } from './../services/password';
 import { generateJwt } from '../services/generate-jwt';
 
