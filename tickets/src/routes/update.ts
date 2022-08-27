@@ -1,0 +1,37 @@
+import express ,{ Request,Response } from 'express';
+import {requireAuth} from 'ticket-app-microservices-common'
+import {body} from 'express-validator';
+import { validateRequest } from 'ticket-app-microservices-common';
+import { Ticket } from '../models/tickets'
+import { NotFoundError } from './../../../common/src/errors/not-found-error';
+import { NotAuthorizedError } from './../../../common/src/errors/not-authorized-error';
+
+const router  = express.Router()
+
+router.put('/api/tickets/:id',requireAuth,
+[body('title').not().isEmpty().withMessage('Title is required'),
+ body('price').isFloat({gt:0}).withMessage('Price must be greater than zero')]
+,validateRequest
+,async (req : Request,res : Response)=>{
+    const {title,price} =req.body
+    const id = req.params.id
+    const ticket = await Ticket.findById(id)
+    if(!ticket)
+    {
+        throw new NotFoundError()
+    }
+    if(ticket.userId !== req.currentUser!.id)
+    {
+        throw new NotAuthorizedError()
+    }
+
+    ticket.set({
+        title,
+        price
+    })
+    await ticket.save()
+    console.log(`Ticket updated`)
+    res.status(200).send(ticket)
+})
+
+export {router as updateTicketRouter}

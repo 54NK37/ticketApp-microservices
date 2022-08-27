@@ -11,8 +11,9 @@ declare global {
 global.signin = ()=>{
     // we dont want to depend on auth service so we create jwt again and replicate 
     // it as required for cookie-session
+    const id = new mongoose.Types.ObjectId().toHexString()
     const payload = {
-        id:'asadfwexcas',
+        id,
         email : "test3@test.com"
     }
 
