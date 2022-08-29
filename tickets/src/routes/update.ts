@@ -3,8 +3,8 @@ import {requireAuth} from 'ticket-app-microservices-common'
 import {body} from 'express-validator';
 import { validateRequest } from 'ticket-app-microservices-common';
 import { Ticket } from '../models/tickets'
-import { NotFoundError } from './../../../common/src/errors/not-found-error';
-import { NotAuthorizedError } from './../../../common/src/errors/not-authorized-error';
+import { NotFoundError } from 'ticket-app-microservices-common/build/errors/not-found-error';
+import { NotAuthorizedError } from 'ticket-app-microservices-common/build/errors/not-authorized-error';
 
 const router  = express.Router()
 
