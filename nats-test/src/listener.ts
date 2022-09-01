@@ -1,5 +1,6 @@
-import nats, { Message } from "node-nats-streaming";
+import nats from "node-nats-streaming";
 import { randomBytes } from "crypto";
+import { TicketCreatedListener } from './events/ticket-created-listener';
 console.clear();
 
 // connection to cluster with unique clientID
@@ -15,27 +16,7 @@ client.on("connect", () => {
     process.exit()
   })
 
-  //  acknowledge when event is received
-  const options = client
-  .subscriptionOptions()
-  .setManualAckMode(true)
-  .setDeliverAllAvailable() // To receive all the past events that has occured from beginning.(First Time only)
-  .setDurableName('listener-service2') // When service is down /restarted fetch only the events missed in that duration and no need receive all events from beginning.(Next Time onwards)
-
-  // subscribe to subject
-  // multiple listener would join same queue group and only 1 listener from queue group would receive an event
-  const subscription = client.subscribe(
-    "ticket:created",
-    "listener-service-queue-group",
-    options
-  );
-
-  subscription.on("message", (msg: Message) => {
-    console.log(
-      `Event #${msg.getSequence()} Message received : ${msg.getData()} from : ${msg.getSubject()}`
-    );
-    msg.ack()
-  });
+   new TicketCreatedListener(client).listen() 
 });
 
 // bydefault nats uses heart beat check for connection checking and thinks listener may be down temporarily
