@@ -2,6 +2,9 @@ import request from 'supertest'
 import {app} from '../../app'
 import { Ticket } from '../../models/tickets'
 
+// it will use mock for this file
+jest.mock('./../../nats/nats-wrapper')
+
 it('Has a route handler listening to /api/tickets for posts request',async ()=>{
     const res = await request(app)
     .post('/api/tickets')
