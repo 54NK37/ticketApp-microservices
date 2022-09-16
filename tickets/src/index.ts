@@ -7,7 +7,7 @@ const start = async()=>{
         await mongoose.connect(process.env.MONGO_URI!)
         console.log('Connected to MonogoDb')
         
-        await natsWrapper.connect('ticketing','asawedf','http://nats-srv:4222')
+        await natsWrapper.connect(process.env.NATS_CLUSTER_ID!,process.env.CLIENT_ID!,process.env.NATS_URL!)
         
         // handling closing at here because process.exit should be avoided in singleton class 
         // refer nats-test for more details
@@ -24,7 +24,7 @@ const start = async()=>{
 }
 
 app.listen(3000,async ()=>{
-    if(!process.env.JWT_KEY || !process.env.MONGO_URI)        // here we have to ckeck all env files are loaded properly
+    if(!process.env.JWT_KEY || !process.env.MONGO_URI || !process.env.NATS_CLUSTER_ID || !process.env.NATS_URL || !process.env.CLIENT_ID)        // here we have to ckeck all env files are loaded properly
         throw new Error('Environment variables not defined')
     await start()
     console.log('Listening on 3000!!')

@@ -28,6 +28,9 @@ global.signin = ()=>{
     return {cookie : [`session=${jsonStringB64}`]}
 }
 
+// it will use mock for this file
+jest.mock('../nats/nats-wrapper')
+
 let mongo:any
 
 // hook which run once before tests
@@ -42,6 +45,7 @@ beforeAll(async ()=>{
 
 // hook which run before each test
 beforeEach(async ()=>{
+    jest.clearAllMocks()
     const collections = await mongoose.connection.db.collections()
     collections.forEach(async(collection)=>{
         await collection.deleteMany({})     //empty collections

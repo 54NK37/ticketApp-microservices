@@ -1,9 +1,7 @@
 import request from 'supertest'
 import {app} from '../../app'
 import { Ticket } from '../../models/tickets'
-
-// it will use mock for this file
-jest.mock('./../../nats/nats-wrapper')
+import { natsWrapper } from '../../nats/nats-wrapper';
 
 it('Has a route handler listening to /api/tickets for posts request',async ()=>{
     const res = await request(app)
@@ -87,4 +85,21 @@ it('Create a ticket with valid inputs',async ()=>{
     expect(tickets.length).toEqual(1)
     expect(tickets[0].price).toEqual(10)
     expect(tickets[0].title).toEqual(title)
+})
+
+it('publishes an event', async()=>{
+
+    const title = 'asasdfa'
+    const {cookie} = global.signin()
+
+    await request(app)
+    .post('/api/tickets')
+    .set('Cookie',cookie)
+    .send({
+        title,
+        price : 10
+    })
+    .expect(201)
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 })
