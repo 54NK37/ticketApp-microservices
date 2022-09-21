@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { requireAuth } from "ticket-app-microservices-common";
 import { Ticket } from "../models/tickets";
 
 const router = express.Router();
