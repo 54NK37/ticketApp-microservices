@@ -1,6 +1,8 @@
 import {app} from "./app";
 import mongoose from "mongoose";
 import { natsWrapper } from './nats/nats-wrapper';
+import { TicketCreatedListener } from './../events/listeners/ticket-created-listener';
+import { TicketUpdatedListener } from './../events/listeners/ticket-updated-listener';
 
 const start = async()=>{
     try {
@@ -9,6 +11,10 @@ const start = async()=>{
         
         await natsWrapper.connect(process.env.NATS_CLUSTER_ID!,process.env.CLIENT_ID!,process.env.NATS_URL!)
         
+        // Listening for events from tickets service
+        new TicketCreatedListener(natsWrapper.client).listen()
+        new TicketUpdatedListener(natsWrapper.client).listen()
+
         // handling closing at here because process.exit should be avoided in singleton class 
         // refer nats-test for more details
         natsWrapper.client.on('close',()=>{

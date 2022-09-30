@@ -1,9 +1,8 @@
 import express, { Request, Response } from "express";
-import { NotFoundError, requireAuth } from "ticket-app-microservices-common";
+import { NotFoundError, requireAuth,NotAuthorizedError } from "ticket-app-microservices-common";
 import { OrderCancelledPublisher } from "../../events/publishers/order-cancelled-publisher";
 import { Order,OrderStatus } from "../models/order";
 import { natsWrapper } from "../nats/nats-wrapper";
-import { NotAuthorizedError } from './../../../common/src/errors/not-authorized-error';
 
 const router = express.Router();
 
