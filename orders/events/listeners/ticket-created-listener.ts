@@ -1,5 +1,5 @@
 import { Listener, Subjects } from "ticket-app-microservices-common";
-import { TicketCreatedEvent } from './../../../common/src/events/ticket-created-event';
+import { TicketCreatedEvent } from 'ticket-app-microservices-common';
 import { Message } from 'node-nats-streaming';
 import { queueGroupName } from "./queue-group-name";
 import { Ticket } from "../../src/models/ticket";

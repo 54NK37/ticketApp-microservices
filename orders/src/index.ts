@@ -30,6 +30,7 @@ const start = async()=>{
 }
 
 app.listen(3000,async ()=>{
+    console.log(process.env.JWT_KEY , process.env.MONGO_URI , process.env.NATS_CLUSTER_ID , process.env.NATS_URL , process.env.CLIENT_ID)
     if(!process.env.JWT_KEY || !process.env.MONGO_URI || !process.env.NATS_CLUSTER_ID || !process.env.NATS_URL || !process.env.CLIENT_ID)        // here we have to ckeck all env files are loaded properly
         throw new Error('Environment variables not defined')
     await start()
