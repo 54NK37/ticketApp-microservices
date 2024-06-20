@@ -17,6 +17,7 @@ interface OrderDoc extends mongoose.Document {
     status:OrderStatus;
     expiresAt:Date;
     ticket:TicketDoc;
+    version:number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc>
@@ -53,6 +54,8 @@ const OrderSchema = new mongoose.Schema({
     }
 })
 
+// Optimistic concurrency control
+OrderSchema.set('versionKey','version')
 OrderSchema.statics.build=(attrs : OrderAttrs)=>{
     return new Order(attrs)
 }
