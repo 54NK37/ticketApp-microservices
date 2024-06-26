@@ -1,9 +1,11 @@
 import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
+import mongoose from "mongoose";
 
 const buildTicket = async () => {
   let ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -30,14 +32,14 @@ it("fetches orders for an particular user", async () => {
     .expect(201);
 
   // Create two orders as User #2
-    
+
   const { body: orderOne } = await request(app)
     .post("/api/orders")
     .set("Cookie", userTwo)
     .send({ ticketId: ticketTwo.id })
     .expect(201);
 
-    const { body: orderTwo } = await request(app)
+  const { body: orderTwo } = await request(app)
     .post("/api/orders")
     .set("Cookie", userTwo)
     .send({ ticketId: ticketThree.id })

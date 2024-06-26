@@ -1,9 +1,9 @@
 import { TicketCreatedEvent } from "ticket-app-microservices-common"
-import { natsWrapper } from "../../../src/nats/nats-wrapper"
+import { natsWrapper } from "../../../nats/nats-wrapper"
 import { TicketCreatedListener } from "../ticket-created-listener"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"
-import { Ticket } from "../../../src/models/ticket"
+import { Ticket } from "../../../models/ticket"
 
 const setup = async () => {
     // create an instance of listener

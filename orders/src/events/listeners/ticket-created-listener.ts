@@ -2,7 +2,7 @@ import { Listener, Subjects } from "ticket-app-microservices-common";
 import { TicketCreatedEvent } from 'ticket-app-microservices-common';
 import { Message } from 'node-nats-streaming';
 import { queueGroupName } from "./queue-group-name";
-import { Ticket } from "../../src/models/ticket";
+import { Ticket } from "../../models/ticket";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 

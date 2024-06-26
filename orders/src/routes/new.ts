@@ -4,7 +4,7 @@ import { Order,OrderStatus } from "../models/order";
 import { body } from 'express-validator';
 import mongoose from "mongoose";
 import { Ticket } from "../models/ticket";
-import { OrderCreatedPublisher } from './../../events/publishers/order-created-publisher';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { natsWrapper } from './../nats/nats-wrapper';
 
 const router = express.Router();

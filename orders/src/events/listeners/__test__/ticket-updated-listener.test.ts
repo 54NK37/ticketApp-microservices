@@ -1,8 +1,8 @@
 import { TicketUpdatedEvent } from "ticket-app-microservices-common"
-import { natsWrapper } from "../../../src/nats/nats-wrapper"
+import { natsWrapper } from "../../../nats/nats-wrapper"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"
-import { Ticket } from "../../../src/models/ticket"
+import { Ticket } from "../../../models/ticket"
 import { TicketUpdatedListener } from "../ticket-updated-listener"
 
 const setup = async () => {
@@ -50,4 +50,14 @@ it('Acks the message on receiving a ticket:created event', async () => {
     const { listener, data, msg } = await setup();
     await listener.onMessage(data, msg);
     expect(msg.ack).toHaveBeenCalled();
+})
+
+it('Does not Acks the message on receiving a in order version event', async () => {
+    const { listener, data, msg } = await setup();
+    data.version = 10;
+    try {
+        await listener.onMessage(data, msg);        
+    } catch (error) {
+    }
+    expect(msg.ack).not.toHaveBeenCalled();
 })
