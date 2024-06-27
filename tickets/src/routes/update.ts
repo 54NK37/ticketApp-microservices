@@ -1,5 +1,5 @@
 import express ,{ Request,Response } from 'express';
-import {requireAuth} from 'ticket-app-microservices-common'
+import {BadRequestError, requireAuth} from 'ticket-app-microservices-common'
 import {body} from 'express-validator';
 import { validateRequest } from 'ticket-app-microservices-common';
 import { Ticket } from '../models/tickets'
@@ -26,6 +26,10 @@ router.put('/api/tickets/:id',requireAuth,
     {
         throw new NotAuthorizedError()
     }
+    if(ticket.orderId)
+    {
+        throw new BadRequestError('Cannot edit a reserved ticket')
+    }
 
     ticket.set({
         title,
@@ -38,7 +42,7 @@ router.put('/api/tickets/:id',requireAuth,
         version: ticket.version,
         title : ticket.title,
         price : ticket.price,
-        userId : ticket.userId
+        userId : ticket.userId,
     })
     res.status(200).send(ticket)
 })

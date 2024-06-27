@@ -1,15 +1,15 @@
-import { Listener, NotFoundError, OrderCreatedEvent, OrderStatus, Subjects } from "ticket-app-microservices-common"
+import { Listener, NotFoundError, OrderCancelledEvent, OrderCreatedEvent, OrderStatus, Subjects } from "ticket-app-microservices-common"
 import { queueGroupName } from './queue-group-name'
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/tickets";
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 
-export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
-    readonly subject: Subjects.OrderCreated = Subjects.OrderCreated;
+export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
+    readonly subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
     readonly queueGroupName: string = queueGroupName;
 
-    async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
-        // Mark ticket as reserved thorugh orderId and publish TicketUpdated event
+    async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
+        // Mark ticket as unreserved thorugh orderId and publish TicketUpdated event
         const { id, ticket } = data;
         const ticketDb = await Ticket.findById(ticket.id)
 
@@ -17,7 +17,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
             throw new Error('Ticket not found')
         }
 
-        ticketDb.set({ orderId: id });
+        ticketDb.set({ orderId: undefined });
         await ticketDb.save()
 
         await new TicketUpdatedPublisher(this.client).publish({

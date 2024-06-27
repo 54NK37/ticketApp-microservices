@@ -1,6 +1,8 @@
 import {app} from "./app";
 import mongoose from "mongoose";
 import { natsWrapper } from './nats/nats-wrapper';
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
 
 const start = async()=>{
     try {
@@ -8,6 +10,9 @@ const start = async()=>{
         console.log('Connected to MonogoDb')
         
         await natsWrapper.connect(process.env.NATS_CLUSTER_ID!,process.env.CLIENT_ID!,process.env.NATS_URL!)
+        
+        new OrderCreatedListener(natsWrapper.client).listen()
+        new OrderCancelledListener(natsWrapper.client).listen()
         
         // handling closing at here because process.exit should be avoided in singleton class 
         // refer nats-test for more details
