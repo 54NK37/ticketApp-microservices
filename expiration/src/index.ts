@@ -1,3 +1,4 @@
+import { OrderCreatedListener } from './events/listeners/order-created-listener';
 import { natsWrapper } from './nats/nats-wrapper';
 
 const start = async () => {
@@ -9,6 +10,8 @@ const start = async () => {
 
         await natsWrapper.connect(process.env.NATS_CLUSTER_ID!, process.env.CLIENT_ID!, process.env.NATS_URL!)
 
+        new OrderCreatedListener(natsWrapper.client).listen()
+        
         // handling closing at here because process.exit should be avoided in singleton class 
         // refer nats-test for more details
         natsWrapper.client.on('close', () => {
