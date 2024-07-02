@@ -6,9 +6,9 @@ deploy:
       - ./infra/k8s/*
 build:
   local:
-    push: false
+    push: true
   artifacts:
-    - image: auth
+    - image: sanketfarande2/auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -16,7 +16,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: client
+    - image: sanketfarande2/client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -24,7 +24,7 @@ build:
         manual:
           - src: '**/*.js'
             dest: .
-    - image: tickets
+    - image: sanketfarande2/tickets
       context: tickets
       docker:
         dockerfile: Dockerfile
@@ -32,7 +32,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .       
-    - image: orders
+    - image: sanketfarande2/orders
       context: orders
       docker:
         dockerfile: Dockerfile
@@ -40,8 +40,16 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: expiration
+    - image: sanketfarande2/expiration
       context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .                             
+    - image: sanketfarande2/payments
+      context: payments
       docker:
         dockerfile: Dockerfile
       sync:

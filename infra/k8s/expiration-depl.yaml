@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: expiration
-          image: expiration
+          image: sanketfarande2/expiration
           env:
             - name: CLIENT_ID
               valueFrom:

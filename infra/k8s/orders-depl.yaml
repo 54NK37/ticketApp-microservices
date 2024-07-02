@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: orders
-          image: orders
+          image: sanketfarande2/orders
           env:
             - name: CLIENT_ID
               valueFrom:
