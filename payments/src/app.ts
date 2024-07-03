@@ -3,6 +3,7 @@ import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError } from "ticket-app-microservices-common";
 import "express-async-errors"; //async function callback can make fail our all throwed errors inside routes
 import { currentUser } from "ticket-app-microservices-common";
+import { createChargeRouter } from "./routes/new";
 
 // app is written separately for testing as we require only app without running on any port
 const app = express();
@@ -17,6 +18,7 @@ app.use(
 );
 
 app.use(currentUser);
+app.use(createChargeRouter);
 
 // for all http methods .
 app.all("*", async () => {
