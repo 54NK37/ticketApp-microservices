@@ -5,7 +5,7 @@ import { body } from 'express-validator';
 import mongoose from "mongoose";
 import { Ticket } from "../models/ticket";
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
-import { natsWrapper } from './../nats/nats-wrapper';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 1 * 60 // 1min

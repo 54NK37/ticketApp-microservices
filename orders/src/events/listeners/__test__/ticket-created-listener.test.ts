@@ -1,5 +1,5 @@
 import { TicketCreatedEvent } from "ticket-app-microservices-common"
-import { natsWrapper } from "../../../nats/nats-wrapper"
+import { natsWrapper } from "../../../nats-wrapper"
 import { TicketCreatedListener } from "../ticket-created-listener"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"

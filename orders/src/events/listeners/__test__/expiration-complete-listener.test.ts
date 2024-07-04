@@ -1,5 +1,5 @@
 import { ExpirationCompleteEvent, OrderStatus, TicketCreatedEvent } from "ticket-app-microservices-common"
-import { natsWrapper } from "../../../nats/nats-wrapper"
+import { natsWrapper } from "../../../nats-wrapper"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"
 import { Ticket } from "../../../models/ticket"

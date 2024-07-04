@@ -1,7 +1,7 @@
 import { OrderCancelledEvent, OrderCreatedEvent, OrderStatus, TicketCreatedEvent } from "ticket-app-microservices-common"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"
-import { natsWrapper } from "../../../nats/nats-wrapper"
+import { natsWrapper } from "../../../nats-wrapper"
 import { Ticket } from "../../../models/tickets"
 import { OrderCancelledListener } from "../order-cancelled-listener"
 

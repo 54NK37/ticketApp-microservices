@@ -4,7 +4,7 @@ import {body} from 'express-validator';
 import { validateRequest } from 'ticket-app-microservices-common';
 import { Ticket } from '../models/tickets'
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
-import {natsWrapper} from '../nats/nats-wrapper'
+import {natsWrapper} from '../nats-wrapper'
 
 const router  = express.Router()
 

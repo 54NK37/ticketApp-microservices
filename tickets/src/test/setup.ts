@@ -29,7 +29,7 @@ global.signin = ()=>{
 }
 
 // it will use mock for this file
-jest.mock('../nats/nats-wrapper')
+jest.mock('../nats-wrapper')
 
 let mongo:any
 

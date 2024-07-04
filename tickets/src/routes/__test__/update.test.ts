@@ -1,7 +1,7 @@
 import request from 'supertest'
 import {app} from '../../app'
 import mongoose from 'mongoose'
-import { natsWrapper } from '../../nats/nats-wrapper';
+import { natsWrapper } from '../../nats-wrapper';
 import { Ticket } from '../../models/tickets';
 
 it('Returns 404 if provided id doesnt exists',async ()=>{

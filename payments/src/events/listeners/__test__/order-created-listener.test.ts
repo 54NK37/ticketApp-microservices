@@ -2,7 +2,7 @@ import { OrderCreatedEvent, OrderStatus } from "ticket-app-microservices-common"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"
 import { OrderCreatedListener } from "../order-created-listener"
-import { natsWrapper } from "../../../nats/nats-wrapper"
+import { natsWrapper } from "../../../nats-wrapper"
 import { Order } from "../../../models/order"
 
 const setup = async () => {

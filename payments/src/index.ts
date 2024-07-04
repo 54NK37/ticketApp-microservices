@@ -1,6 +1,6 @@
 import { app } from "./app";
 import mongoose from "mongoose";
-import { natsWrapper } from './nats/nats-wrapper';
+import { natsWrapper } from './nats-wrapper';
 import { OrderCreatedListener } from "./events/listeners/order-created-listener";
 import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
 

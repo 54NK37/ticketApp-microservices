@@ -1,4 +1,4 @@
-import { Listener, NotFoundError, OrderCancelledEvent, OrderCreatedEvent, OrderStatus, Subjects } from "ticket-app-microservices-common"
+import { Listener, OrderCancelledEvent, Subjects } from "ticket-app-microservices-common"
 import { queueGroupName } from './queue-group-name'
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/tickets";

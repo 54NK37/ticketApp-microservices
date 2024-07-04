@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { NotFoundError, requireAuth,NotAuthorizedError } from "ticket-app-microservices-common";
 import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 import { Order,OrderStatus } from "../models/order";
-import { natsWrapper } from "../nats/nats-wrapper";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 

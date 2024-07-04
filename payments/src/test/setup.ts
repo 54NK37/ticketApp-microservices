@@ -7,7 +7,7 @@ declare global {
     var signin: (id? : string) => { cookie: string[] };
 }
 
-jest.mock("../nats/nats-wrapper");
+jest.mock("../nats-wrapper");
 
 let mongo: any;
 beforeAll(async () => {

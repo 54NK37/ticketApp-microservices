@@ -5,7 +5,7 @@ import { validateRequest } from 'ticket-app-microservices-common';
 import { Ticket } from '../models/tickets'
 import { NotFoundError } from 'ticket-app-microservices-common/build/errors/not-found-error';
 import { NotAuthorizedError } from 'ticket-app-microservices-common/build/errors/not-authorized-error';
-import { natsWrapper } from '../nats/nats-wrapper';
+import { natsWrapper } from '../nats-wrapper';
 import { TicketUpdatedPublisher } from './../events/publishers/ticket-updated-publisher';
 
 const router  = express.Router()
